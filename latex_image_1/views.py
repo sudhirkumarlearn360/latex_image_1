@@ -37,6 +37,11 @@ def home(request):
 def health_check(request):
 	return HttpResponse("OK")
 
+
+	
+def health_check1(request):
+	return HttpResponse("OK")
+
 def latex_check1(request):
 	image_path = request.get_full_path().split('?')
 	print("image_path............%s %s",image_path,len(image_path) )
