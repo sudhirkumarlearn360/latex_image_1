@@ -28,6 +28,8 @@ def save_latex_image(image_path):
 		return HttpResponse(e)
 	
 
+# async def open_image(img):
+# 	return await urlopen(img).read()
 	
 def latex_save(request):
 	image_path = request.get_full_path().split('?')
@@ -36,7 +38,7 @@ def latex_save(request):
 def latex_save1(image_path):
 
 	# image_path = request.get_full_path().split('?')
-	print("image_path............%s %s",image_path,len(image_path))
+	# print("image_path............%s %s",image_path,len(image_path))
 	if image_path and len(image_path) > 1:
 		image_path=image_path[1]
 		latex_image_obj,created = LatexImage.objects.get_or_create(server_image_path=image_path)    
@@ -44,31 +46,50 @@ def latex_save1(image_path):
 		latex_path_gif = "https://latex.codecogs.com/gif.latex?%s" % (image_path)
 		latex_path_svg = "https://latex.codecogs.com/svg.latex?%s" % (image_path)
 
+
 		if created:
 
 			try:
 
 				img_temp = NamedTemporaryFile()
+
 				image_content = urlopen(latex_path_svg).read()
+				count_while =0
+				while(str(image_content).find("xml")<0):
+					image_content = urlopen(latex_path_svg).read()
+					print("IMAGE ISSUE............. ",latex_path_svg)
+					count_while +=1
+					if(count_while >3):
+						break
+
 				img_temp.write(image_content)
 				img_temp.flush()
 
+				# print("img_temp.......",img_temp)
+				# print("image_content.......",image_content)
+
+
 				img_filename = 'latex_%s_file.svg' % (latex_image_obj.id)
 				latex_image_obj.local_image.save(img_filename, File(img_temp))
+
+				# print("img_filename.......",img_filename)
+
 
 				latex_image_obj.save()
 				image_path_local = latex_image_obj.local_image.url
 
 			except Exception as e:
 				image_path_local = ""
+				print("image_path_local............ ", e)
 
-				# if image not rendered properly then it will delete that id and create new
-				latex_image_obj.delete()
-				created = str(created )*2
-				latex_save()
+				# # if image not rendered properly then it will delete that id and create new
+				# latex_image_obj.delete()
+				# created = str(created )*2
+				# # latex_save()
 			
 		else:
 			image_path_local = latex_image_obj.local_image.url
+		
 
 		return HttpResponse('<p><br><br> Image Path: '+str(image_path_local)+'<br><br><img src="'+image_path_local+'"'+'<br><br><br> Image ID: '+str(latex_image_obj.id)+'<br><br><br><img src="'+latex_path_gif+'"<br><br><br><img src="'+latex_path_png+'"<br><br><br><img src="'+latex_path_svg+'"><br><br>  '+ str(created)+'</p>' )
 	return HttpResponse('No Code, Please add code after "http://127.0.0.1:8000/latex_save/?____"')

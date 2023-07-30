@@ -25,7 +25,8 @@ SECRET_KEY = 't=12x=r+3j094ya6yp@3_k@majdimbag6zmqojzo_rt4$3rg26'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.12']
+ALLOWED_HOSTS = ['192.168.1.12','127.0.0.1']
+# ALLOWED_HOSTS = ['192.168.1.12']
 
 
 # Application definition
@@ -120,13 +121,26 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-# # Laptop root folder image directory
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-# # Laptop root folder image directory
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-STATIC_ROOT = '/static/'
-MEDIA_ROOT = '/media/'
+# MEDIA_URL = '/Users/sudhi/Desktop/Coding 2/Python/My PROJECT/Latex_test 1/latex_image/media/'
+# STATIC_URL = os.path.join(BASE_DIR, 'static/')
+# MEDIA_URL= os.path.join(BASE_DIR, 'media/')
+# Laptop root folder image directory
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+# Laptop root folder image directory
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+
+# STATIC_ROOT = '/static/'
+# MEDIA_ROOT = '/media/'
+
+print(MEDIA_URL)
+print(MEDIA_ROOT)
+media_url_location_development = str(os.path.join(BASE_DIR, 'media/').replace("\\","/")).split(":")
+# print(str(os.path.join(BASE_DIR, 'media/').replace("\\","/")).split(":"))
+print(str(media_url_location_development[1]))
+
+MEDIA_URL = str(media_url_location_development[1])
 
 
 
