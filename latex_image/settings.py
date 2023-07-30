@@ -25,7 +25,7 @@ SECRET_KEY = 't=12x=r+3j094ya6yp@3_k@majdimbag6zmqojzo_rt4$3rg26'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.1.12']
 
 
 # Application definition
@@ -119,6 +119,21 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+# # Laptop root folder image directory
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# # Laptop root folder image directory
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+STATIC_ROOT = '/static/'
+MEDIA_ROOT = '/media/'
+
+
+
+# STATIC_ROOT = root('../static')
+# MEDIA_ROOT = root('../media')
+
+
 
 
 CACHES = {
